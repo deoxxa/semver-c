@@ -1,0 +1,17 @@
+{
+  "name": "semver-c",
+  "version": "0.0.0",
+  "description": "Semantic versioning is back! In C form!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/deoxxa/semver-c.git"
+  },
+  "keywords": [
+    "semver",
+    "c",
+    "native"
+  ],
+  "author": "Conrad Pankoff <deoxxa@fknsrs.biz> (http://www.fknsrs.biz/)",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
