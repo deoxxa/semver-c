@@ -1,12 +1,3 @@
-enum {
-  PARSE_STATE_MAJOR = 0,
-  PARSE_STATE_MINOR,
-  PARSE_STATE_PATCH,
-  PARSE_STATE_OTHER,
-  PARSE_STATE_TAG,
-  PARSE_STATE_BUILD
-};
-
 typedef struct semver_s {
   int major;
   int minor;
