@@ -1,4 +1,4 @@
-CFLAGS += -Wall -Werror -I./include
+CFLAGS += -Wall -Werror -pedantic
 
 all: prepare semver-dump
 
