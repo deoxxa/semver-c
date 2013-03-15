@@ -70,6 +70,28 @@ component_t* component_read(char* str, int len) {
   return head;
 }
 
+int component_compare(component_t* a, component_t* b) {
+  if (a == NULL && b != NULL) {
+    return 1;
+  } else if (a != NULL && b == NULL) {
+    return -1;
+  } else if (a == NULL && b == NULL) {
+    return 0;
+  }
+
+  if (a->numeric && b->numeric) {
+    if (a->dataInt > b->dataInt) {
+      return 1;
+    } else if (a->dataInt < b->dataInt) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  return strcmp(a->dataRaw, b->dataRaw);
+}
+
 void semver_init(semver_t* semver) {
   semver->major = 0;
   semver->minor = 0;
@@ -206,6 +228,38 @@ int semver_compare(const semver_t* a, const semver_t* b) {
 
   if (a->patch != b->patch) {
     return a->patch > b->patch ? 1 : -1;
+  }
+
+  if (a->release == NULL && b->release != NULL) {
+    return 1;
+  }
+
+  if (a->release != NULL && b->release == NULL) {
+    return -1;
+  }
+
+  if (a->release != NULL || b->release != NULL) {
+    int release = component_compare(a->release, b->release);
+
+    if (release != 0) {
+      return release;
+    }
+  }
+
+  if (a->build != NULL && b->build == NULL) {
+    return 1;
+  }
+
+  if (a->build == NULL && b->build != NULL) {
+    return -1;
+  }
+
+  if (a->build != NULL || b->build != NULL) {
+    int build = component_compare(a->build, b->build);
+
+    if (build != 0) {
+      return build;
+    }
   }
 
   return 0;
