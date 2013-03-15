@@ -12,21 +12,62 @@ void component_init(component_t* component) {
 }
 
 void component_dump(component_t* component) {
-  printf("Numeric: %d\n", component->numeric);
+  if (component == NULL) {
+    return;
+  }
 
   if (component->numeric == 1) {
-    printf("Data: %d\n", component->dataInt);
+    printf("Number: %d\n", component->dataInt);
   } else {
-    printf("Data: %s\n", component->dataRaw);
+    printf("Text: %s\n", component->dataRaw);
   }
 
-  if (component->next != NULL) {
-    component_dump(component->next);
-  }
+  component_dump(component->next);
 }
 
 component_t* component_read(char* str, int len) {
-  return NULL;
+  component_t *head = NULL, *tail = NULL;
+
+  int offset = 0, i = 0, l = 0;
+  while (offset < len) {
+    if (head == NULL) {
+      head = malloc(sizeof(component_t));
+      tail = head;
+    } else {
+      tail->next = malloc(sizeof(component_t));
+      tail = tail->next;
+    }
+
+    component_init(tail);
+
+    for (i=offset;i<len;++i) {
+      if (str[i] == '.') {
+        break;
+      }
+    }
+
+    tail->dataRaw = malloc(i - offset);
+    strncpy(tail->dataRaw, str + offset, i - offset);
+
+    if (str[i] == '.') {
+      i++;
+    }
+
+    offset = i;
+
+    l = strlen(tail->dataRaw);
+    for (i=0;i<l;i++) {
+      if (tail->dataRaw[i] < '0' || tail->dataRaw[i] > '9') {
+        tail->numeric = 0;
+        break;
+      }
+    }
+    if (tail->numeric) {
+      tail->dataInt = strtol(tail->dataRaw, NULL, 10);
+    }
+  }
+
+  return head;
 }
 
 void semver_init(semver_t* semver) {
@@ -43,8 +84,12 @@ void semver_dump(semver_t* semver) {
   printf("Major:   %d\n", semver->major);
   printf("Minor:   %d\n", semver->minor);
   printf("Patch:   %d\n", semver->patch);
+
   printf("Release: (%ld) %s\n", semver->releaseRaw ? strlen(semver->releaseRaw) : 0, semver->releaseRaw);
+  component_dump(semver->release);
+
   printf("Build:   (%ld) %s\n", semver->buildRaw   ? strlen(semver->buildRaw)   : 0, semver->buildRaw);
+  component_dump(semver->build);
 }
 
 void semver_print(semver_t* semver) {
@@ -121,10 +166,11 @@ int semver_read(semver_t* semver, char* str, int len) {
         semver->releaseRaw = malloc(l);
         strncpy(semver->releaseRaw, str + o + 1, l - 1);
         o = i;
+        semver->release = component_read(semver->releaseRaw, strlen(semver->releaseRaw));
         break;
       }
 
-      if (!(str[i] >= '0' && str[i] <= '9') && !(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && str[i] != '-') {
+      if (!(str[i] >= '0' && str[i] <= '9') && !(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && str[i] != '-' && str[i] != '.') {
         return -1;
       }
     }
@@ -135,6 +181,7 @@ int semver_read(semver_t* semver, char* str, int len) {
     semver->buildRaw = malloc(l);
     strncpy(semver->buildRaw, &(str[o]) + 1, l - 1);
     o = len;
+    semver->build = component_read(semver->buildRaw, strlen(semver->buildRaw));
   }
 
   return 0;
