@@ -20,6 +20,20 @@ void semver_dump(semver_t* semver) {
   printf("Build:   (%ld) %s\n", semver->buildRaw   ? strlen(semver->buildRaw)   : 0, semver->buildRaw);
 }
 
+void semver_print(semver_t* semver) {
+  printf("%d.%d.%d", semver->major, semver->minor, semver->patch);
+
+  if (semver->releaseRaw) {
+    printf("-%s", semver->releaseRaw);
+  }
+
+  if (semver->buildRaw) {
+    printf("+%s", semver->buildRaw);
+  }
+
+  printf("\n");
+}
+
 int semver_read(semver_t* semver, char* str, int len) {
   int i = 0, o = 0, l = 0;
 
