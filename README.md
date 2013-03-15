@@ -9,6 +9,9 @@ Overview
 What do you do when you want [semver](https://github.com/isaacs/node-semver)
 but you don't have node installed? Write it in C, of course! HA HA.
 
+Note that this doesn't currently process build or release tags correctly, nor
+does it take them into account when sorting.
+
 semver-dump
 -----------
 
