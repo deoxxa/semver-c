@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     }
   }
 
-  char reverse;
+  char reverse = 0;
   for (i=0;i<argc;++i) {
     if (strncmp("-r", argv[i], strlen(argv[i])) == 0) {
       reverse = 1;
