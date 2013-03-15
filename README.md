@@ -23,6 +23,21 @@ Tag:   (1) a
 Build: (1) x
 ```
 
+semver-sort
+-----------
+
+Sorts a list of semver specs provided as arguments.
+
+```
+➜  semver-c git:(master) ✗ ./semver-sort -r 0.0.1 0.0.2 0.0.3 0.0.4 0.0.6 0.0.5
+0.0.6
+0.0.5
+0.0.4
+0.0.3
+0.0.2
+0.0.1
+```
+
 License
 -------
 
