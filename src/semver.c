@@ -112,3 +112,27 @@ int semver_read(semver_t* semver, char* str, int len) {
 
   return 0;
 }
+
+int semver_compare_qsort_a(const void* a, const void* b) {
+  return semver_compare(a, b);
+}
+
+int semver_compare_qsort_d(const void* a, const void* b) {
+  return semver_compare(b, a);
+}
+
+int semver_compare(const semver_t* a, const semver_t* b) {
+  if (a->major != b->major) {
+    return a->major > b->major ? 1 : -1;
+  }
+
+  if (a->minor != b->minor) {
+    return a->minor > b->minor ? 1 : -1;
+  }
+
+  if (a->patch != b->patch) {
+    return a->patch > b->patch ? 1 : -1;
+  }
+
+  return 0;
+}
