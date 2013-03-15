@@ -4,12 +4,39 @@
 
 #include "../include/semver.h"
 
+void component_init(component_t* component) {
+  component->next = NULL;
+  component->numeric = 1;
+  component->dataRaw = NULL;
+  component->dataInt = 0;
+}
+
+void component_dump(component_t* component) {
+  printf("Numeric: %d\n", component->numeric);
+
+  if (component->numeric == 1) {
+    printf("Data: %d\n", component->dataInt);
+  } else {
+    printf("Data: %s\n", component->dataRaw);
+  }
+
+  if (component->next != NULL) {
+    component_dump(component->next);
+  }
+}
+
+component_t* component_read(char* str, int len) {
+  return NULL;
+}
+
 void semver_init(semver_t* semver) {
   semver->major = 0;
   semver->minor = 0;
   semver->patch = 0;
   semver->releaseRaw = NULL;
   semver->buildRaw = NULL;
+  semver->release = NULL;
+  semver->build = NULL;
 }
 
 void semver_dump(semver_t* semver) {
