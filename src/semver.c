@@ -8,16 +8,16 @@ void semver_init(semver_t* semver) {
   semver->major = 0;
   semver->minor = 0;
   semver->patch = 0;
-  semver->tag = NULL;
-  semver->build = NULL;
+  semver->releaseRaw = NULL;
+  semver->buildRaw = NULL;
 }
 
 void semver_dump(semver_t* semver) {
-  printf("Major: %d\n", semver->major);
-  printf("Minor: %d\n", semver->minor);
-  printf("Patch: %d\n", semver->patch);
-  printf("Tag:   (%ld) %s\n", semver->tag ?   strlen(semver->tag)   : 0, semver->tag);
-  printf("Build: (%ld) %s\n", semver->build ? strlen(semver->build) : 0, semver->build);
+  printf("Major:   %d\n", semver->major);
+  printf("Minor:   %d\n", semver->minor);
+  printf("Patch:   %d\n", semver->patch);
+  printf("Release: (%ld) %s\n", semver->releaseRaw ? strlen(semver->releaseRaw) : 0, semver->releaseRaw);
+  printf("Build:   (%ld) %s\n", semver->buildRaw   ? strlen(semver->buildRaw)   : 0, semver->buildRaw);
 }
 
 int semver_read(semver_t* semver, char* str, int len) {
@@ -77,8 +77,8 @@ int semver_read(semver_t* semver, char* str, int len) {
     for (;i<=len;++i) {
       if (str[i] == '+' || i == len) {
         l = i - o;
-        semver->tag = malloc(l);
-        strncpy(semver->tag, str + o + 1, l - 1);
+        semver->releaseRaw = malloc(l);
+        strncpy(semver->releaseRaw, str + o + 1, l - 1);
         o = i;
         break;
       }
@@ -91,8 +91,9 @@ int semver_read(semver_t* semver, char* str, int len) {
 
   if (str[o] == '+') {
     l = len - o;
-    semver->build = malloc(l);
-    strncpy(semver->build, &(str[o]) + 1, l - 1);
+    semver->buildRaw = malloc(l);
+    strncpy(semver->buildRaw, &(str[o]) + 1, l - 1);
+    o = len;
   }
 
   return 0;
