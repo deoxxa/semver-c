@@ -9,21 +9,26 @@ Overview
 What do you do when you want [semver](https://github.com/isaacs/node-semver)
 but you don't have node installed? Write it in C, of course! HA HA.
 
-Note that this doesn't currently process build or release tags correctly, nor
-does it take them into account when sorting.
-
 semver-dump
 -----------
 
 Prints out information about a semver spec. Returns 0 on success.
 
 ```
-➜  semver-c git:(master) ✗ semver-dump 1.7.5-a+x
-Major: 1
-Minor: 7
-Patch: 5
-Tag:   (1) a
-Build: (1) x
+➜  semver-c git:(master) ✗ ./semver-dump 1.2.3-asdfqwer.iii.www.zzz+aaa.www.123.v
+Major:   1
+Minor:   2
+Patch:   3
+Release: (20) asdfqwer.iii.www.zzz
+Text: asdfqwer
+Text: iii
+Text: www
+Text: zzz
+Build:   (13) aaa.www.123.v
+Text: aaa
+Text: www
+Number: 123
+Text: v
 ```
 
 semver-sort
@@ -32,13 +37,19 @@ semver-sort
 Sorts a list of semver specs provided as arguments.
 
 ```
-➜  semver-c git:(master) ✗ ./semver-sort -r 0.0.1 0.0.2 0.0.3 0.0.4 0.0.6 0.0.5
-0.0.6
-0.0.5
-0.0.4
-0.0.3
-0.0.2
-0.0.1
+➜  semver-c git:(master) ✗ ./semver-sort 1.2.3+b 1.2.3+a 1.2.4 1.2.3 1.2.3-a 1.2.3-b 1.2.3+x 1.2.4-x 1.2.4-y 1.2.4+6 1.2.4+07 1.2.4+8
+1.2.3-a
+1.2.3-b
+1.2.3
+1.2.3+a
+1.2.3+b
+1.2.3+x
+1.2.4-x
+1.2.4-y
+1.2.4
+1.2.4+6
+1.2.4+07
+1.2.4+8
 ```
 
 License
