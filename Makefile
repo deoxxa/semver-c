@@ -5,8 +5,11 @@ all: prepare semver-dump semver-sort
 prepare:
 	mkdir -p ./obj
 
-obj/semver.o: src/semver.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver.c -o obj/semver.o
+obj/spec.o: src/spec.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c src/spec.c -o obj/spec.o
+
+obj/component.o: src/component.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c src/component.c -o obj/component.o
 
 obj/semver-dump.o: src/semver-dump.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-dump.c -o obj/semver-dump.o
@@ -14,11 +17,11 @@ obj/semver-dump.o: src/semver-dump.c
 obj/semver-sort.o: src/semver-sort.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-sort.c -o obj/semver-sort.o
 
-semver-dump: obj/semver-dump.o obj/semver.o
-	$(CC) $(CFLAGS) -o semver-dump obj/semver-dump.o obj/semver.o
+semver-dump: obj/semver-dump.o obj/spec.o obj/component.o
+	$(CC) $(CFLAGS) -o semver-dump obj/semver-dump.o obj/spec.o obj/component.o
 
-semver-sort: obj/semver-sort.o obj/semver.o
-	$(CC) $(CFLAGS) -o semver-sort obj/semver-sort.o obj/semver.o
+semver-sort: obj/semver-sort.o obj/spec.o obj/component.o
+	$(CC) $(CFLAGS) -o semver-sort obj/semver-sort.o obj/spec.o obj/component.o
 
 clean:
 	rm -rf semver-dump semver-sort obj
