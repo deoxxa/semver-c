@@ -9,6 +9,8 @@ void component_init(component_t* component);
 void component_dump(component_t* component);
 component_t* component_read(char* str, int len);
 
+int component_compare(component_t* a, component_t* b);
+
 typedef struct semver_s {
   int major;
   int minor;
