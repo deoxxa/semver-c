@@ -11,7 +11,7 @@ component_t* component_read(char* str, int len);
 
 int component_compare(component_t* a, component_t* b);
 
-typedef struct semver_s {
+typedef struct spec_s {
   int major;
   int minor;
   int patch;
@@ -19,13 +19,13 @@ typedef struct semver_s {
   char* buildRaw;
   component_t* release;
   component_t* build;
-} semver_t;
+} spec_t;
 
-void semver_init (semver_t* semver);
-void semver_dump (semver_t* semver);
-int  semver_read (semver_t* semver, char* str, int len);
-void semver_print(semver_t* semver);
+void spec_init (spec_t* spec);
+void spec_dump (spec_t* spec);
+int  spec_read (spec_t* spec, char* str, int len);
+void spec_print(spec_t* spec);
 
-int semver_compare        (const semver_t* a, const semver_t* b);
-int semver_compare_qsort_a(const void*     a, const void*     b);
-int semver_compare_qsort_d(const void*     a, const void*     b);
+int spec_compare        (const spec_t* a, const spec_t* b);
+int spec_compare_qsort_a(const void*     a, const void*     b);
+int spec_compare_qsort_d(const void*     a, const void*     b);

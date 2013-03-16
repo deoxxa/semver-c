@@ -4,22 +4,22 @@
 #include "../include/semver.h"
 
 int main(int argc, char** argv) {
-  semver_t verify;
-  semver_t* semvers = NULL;
+  spec_t verify;
+  spec_t* specs = NULL;
   int i, j = 0, count = 0;
 
   for (i=0;i<argc;++i) {
-    semver_init(&verify);
-    if (semver_read(&verify, argv[i], strlen(argv[i])) == 0) {
+    spec_init(&verify);
+    if (spec_read(&verify, argv[i], strlen(argv[i])) == 0) {
       count++;
     }
   }
 
-  semvers = malloc(count * sizeof(semver_t));
+  specs = malloc(count * sizeof(spec_t));
 
   for (i=0;i<argc;++i) {
-    semver_init(&(semvers[j]));
-    if (semver_read(&(semvers[j]), argv[i], strlen(argv[i])) == 0) {
+    spec_init(&(specs[j]));
+    if (spec_read(&(specs[j]), argv[i], strlen(argv[i])) == 0) {
       ++j;
     }
   }
@@ -32,13 +32,13 @@ int main(int argc, char** argv) {
   }
 
   if (reverse) {
-    qsort(semvers, count, sizeof(semver_t), &semver_compare_qsort_d);
+    qsort(specs, count, sizeof(spec_t), &spec_compare_qsort_d);
   } else {
-    qsort(semvers, count, sizeof(semver_t), &semver_compare_qsort_a);
+    qsort(specs, count, sizeof(spec_t), &spec_compare_qsort_a);
   }
 
   for (i=0;i<count;++i) {
-    semver_print(&(semvers[i]));
+    spec_print(&(specs[i]));
   }
 
   return 0;

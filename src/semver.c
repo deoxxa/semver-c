@@ -96,48 +96,48 @@ int component_compare(component_t* a, component_t* b) {
   return component_compare(a->next, b->next);
 }
 
-void semver_init(semver_t* semver) {
-  semver->major = 0;
-  semver->minor = 0;
-  semver->patch = 0;
-  semver->releaseRaw = NULL;
-  semver->buildRaw = NULL;
-  semver->release = NULL;
-  semver->build = NULL;
+void spec_init(spec_t* spec) {
+  spec->major = 0;
+  spec->minor = 0;
+  spec->patch = 0;
+  spec->releaseRaw = NULL;
+  spec->buildRaw = NULL;
+  spec->release = NULL;
+  spec->build = NULL;
 }
 
-void semver_dump(semver_t* semver) {
-  printf("Major:   %d\n", semver->major);
-  printf("Minor:   %d\n", semver->minor);
-  printf("Patch:   %d\n", semver->patch);
+void spec_dump(spec_t* spec) {
+  printf("Major:   %d\n", spec->major);
+  printf("Minor:   %d\n", spec->minor);
+  printf("Patch:   %d\n", spec->patch);
 
-  printf("Release: (%ld) %s\n", semver->releaseRaw ? strlen(semver->releaseRaw) : 0, semver->releaseRaw);
-  component_dump(semver->release);
+  printf("Release: (%ld) %s\n", spec->releaseRaw ? strlen(spec->releaseRaw) : 0, spec->releaseRaw);
+  component_dump(spec->release);
 
-  printf("Build:   (%ld) %s\n", semver->buildRaw   ? strlen(semver->buildRaw)   : 0, semver->buildRaw);
-  component_dump(semver->build);
+  printf("Build:   (%ld) %s\n", spec->buildRaw   ? strlen(spec->buildRaw)   : 0, spec->buildRaw);
+  component_dump(spec->build);
 }
 
-void semver_print(semver_t* semver) {
-  printf("%d.%d.%d", semver->major, semver->minor, semver->patch);
+void spec_print(spec_t* spec) {
+  printf("%d.%d.%d", spec->major, spec->minor, spec->patch);
 
-  if (semver->releaseRaw) {
-    printf("-%s", semver->releaseRaw);
+  if (spec->releaseRaw) {
+    printf("-%s", spec->releaseRaw);
   }
 
-  if (semver->buildRaw) {
-    printf("+%s", semver->buildRaw);
+  if (spec->buildRaw) {
+    printf("+%s", spec->buildRaw);
   }
 
   printf("\n");
 }
 
-int semver_read(semver_t* semver, char* str, int len) {
+int spec_read(spec_t* spec, char* str, int len) {
   int i = 0, o = 0, l = 0;
 
   for (;i<=len;++i) {
     if (str[i] == '.') {
-      semver->major = strtol(str + o, NULL, 10);
+      spec->major = strtol(str + o, NULL, 10);
       i++;
       o = i;
       break;
@@ -154,7 +154,7 @@ int semver_read(semver_t* semver, char* str, int len) {
 
   for (;i<=len;++i) {
     if (str[i] == '.') {
-      semver->minor = strtol(str + o, NULL, 10);
+      spec->minor = strtol(str + o, NULL, 10);
       i++;
       o = i;
       break;
@@ -171,7 +171,7 @@ int semver_read(semver_t* semver, char* str, int len) {
 
   for (;i<=len;++i) {
     if (str[i] == '-' || str[i] == '+' || i == len) {
-      semver->patch = strtol(str + o, NULL, 10);
+      spec->patch = strtol(str + o, NULL, 10);
       o = i;
       break;
     }
@@ -189,10 +189,10 @@ int semver_read(semver_t* semver, char* str, int len) {
     for (;i<=len;++i) {
       if (str[i] == '+' || i == len) {
         l = i - o;
-        semver->releaseRaw = malloc(l);
-        strncpy(semver->releaseRaw, str + o + 1, l - 1);
+        spec->releaseRaw = malloc(l);
+        strncpy(spec->releaseRaw, str + o + 1, l - 1);
         o = i;
-        semver->release = component_read(semver->releaseRaw, strlen(semver->releaseRaw));
+        spec->release = component_read(spec->releaseRaw, strlen(spec->releaseRaw));
         break;
       }
 
@@ -204,24 +204,24 @@ int semver_read(semver_t* semver, char* str, int len) {
 
   if (str[o] == '+') {
     l = len - o;
-    semver->buildRaw = malloc(l);
-    strncpy(semver->buildRaw, &(str[o]) + 1, l - 1);
+    spec->buildRaw = malloc(l);
+    strncpy(spec->buildRaw, &(str[o]) + 1, l - 1);
     o = len;
-    semver->build = component_read(semver->buildRaw, strlen(semver->buildRaw));
+    spec->build = component_read(spec->buildRaw, strlen(spec->buildRaw));
   }
 
   return 0;
 }
 
-int semver_compare_qsort_a(const void* a, const void* b) {
-  return semver_compare(a, b);
+int spec_compare_qsort_a(const void* a, const void* b) {
+  return spec_compare(a, b);
 }
 
-int semver_compare_qsort_d(const void* a, const void* b) {
-  return semver_compare(b, a);
+int spec_compare_qsort_d(const void* a, const void* b) {
+  return spec_compare(b, a);
 }
 
-int semver_compare(const semver_t* a, const semver_t* b) {
+int spec_compare(const spec_t* a, const spec_t* b) {
   if (a->major != b->major) {
     return a->major > b->major ? 1 : -1;
   }
