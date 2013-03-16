@@ -57,6 +57,11 @@ License
 
 3-clause BSD. A copy is included with the source.
 
+Notes
+-----
+
+This program is officially part of the AIR-CODING initiative.
+
 Contact
 -------
 
