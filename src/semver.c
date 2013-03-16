@@ -84,12 +84,16 @@ int component_compare(component_t* a, component_t* b) {
       return 1;
     } else if (a->dataInt < b->dataInt) {
       return -1;
-    } else {
-      return 0;
     }
   }
 
-  return strcmp(a->dataRaw, b->dataRaw);
+  int s = strcmp(a->dataRaw, b->dataRaw);
+
+  if (s != 0) {
+    return s;
+  }
+
+  return component_compare(a->next, b->next);
 }
 
 void semver_init(semver_t* semver) {
@@ -230,6 +234,7 @@ int semver_compare(const semver_t* a, const semver_t* b) {
     return a->patch > b->patch ? 1 : -1;
   }
 
+  // no release > new release > old release
   if (a->release == NULL && b->release != NULL) {
     return 1;
   }
@@ -246,6 +251,7 @@ int semver_compare(const semver_t* a, const semver_t* b) {
     }
   }
 
+  // new build > old build > no build
   if (a->build != NULL && b->build == NULL) {
     return 1;
   }
