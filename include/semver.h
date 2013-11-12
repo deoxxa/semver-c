@@ -39,4 +39,18 @@ int spec_compare        (const spec_t* a, const spec_t* b);
 int spec_compare_qsort_a(const void*   a, const void*     b);
 int spec_compare_qsort_d(const void*   a, const void*     b);
 
+typedef struct range_s {
+  struct range_s* next;
+  char hasLower;
+  char hasUpper;
+  char includesLower;
+  char includesUpper;
+  spec_t* lower;
+  spec_t* upper;
+} range_t;
+
+void     range_init(range_t* range);
+void     range_dump(range_t* range);
+range_t* range_read(const char* str, size_t len);
+
 #endif

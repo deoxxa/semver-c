@@ -1,3 +1,4 @@
 obj
 semver-dump
 semver-sort
+semver-range
