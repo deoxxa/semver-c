@@ -37,11 +37,13 @@ void spec_print(spec_t* spec) {
   printf("%d.%d.%d", spec->major, spec->minor, spec->patch);
 
   if (spec->releaseRaw) {
-    printf("-%s", spec->releaseRaw);
+    printf("-");
+    component_print(spec->release);
   }
 
   if (spec->buildRaw) {
-    printf("+%s", spec->buildRaw);
+    printf("+");
+    component_print(spec->build);
   }
 
   printf("\n");

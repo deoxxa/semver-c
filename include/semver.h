@@ -13,6 +13,7 @@ typedef struct component_s {
 
 void component_init(component_t* component);
 void component_dump(component_t* component);
+void component_print(component_t* component);
 component_t* component_read(const char* str, size_t len);
 
 int component_compare(component_t* a, component_t* b);

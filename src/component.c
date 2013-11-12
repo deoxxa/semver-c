@@ -29,6 +29,24 @@ void component_dump(component_t* component) {
   component_dump(component->next);
 }
 
+void component_print(component_t* component) {
+  if (component == NULL) {
+    return;
+  }
+
+  if (component->numeric == 1) {
+    printf("%d", component->dataInt);
+  } else {
+    semver_private_print(component->dataRaw, component->dataLen);
+  }
+
+  if (component->next) {
+    printf(".");
+
+    component_dump(component->next);
+  }
+}
+
 component_t* component_read(const char* str, size_t len) {
   component_t *head = NULL, *tail = NULL;
 
