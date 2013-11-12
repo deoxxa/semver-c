@@ -1,3 +1,6 @@
+#ifndef SEMVER_H
+#define SEMVER_H
+
 typedef struct component_s {
   struct component_s* next;
   char numeric;
@@ -29,3 +32,5 @@ void spec_print(spec_t* spec);
 int spec_compare        (const spec_t* a, const spec_t* b);
 int spec_compare_qsort_a(const void*     a, const void*     b);
 int spec_compare_qsort_d(const void*     a, const void*     b);
+
+#endif
