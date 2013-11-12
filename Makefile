@@ -5,12 +5,14 @@ all: prepare semver-dump semver-sort
 prepare:
 	mkdir -p ./obj
 
-obj/spec.o: src/spec.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -c src/spec.c -o obj/spec.o
+obj/private.o: src/private.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c src/private.c -o obj/private.o
 
 obj/component.o: src/component.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/component.c -o obj/component.o
 
+obj/spec.o: src/spec.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c src/spec.c -o obj/spec.o
 obj/semver-dump.o: src/semver-dump.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-dump.c -o obj/semver-dump.o
 
