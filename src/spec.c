@@ -53,6 +53,26 @@ int spec_read(spec_t* spec, const char* str, size_t len) {
   int i = 0, o = 0;
 
   for (;i<=len;++i) {
+    if (str[i] == ' ') {
+      i++;
+    } else {
+      break;
+    }
+  }
+
+  if (str[i] == 'v') {
+    i++;
+  }
+
+  for (;i<=len;++i) {
+    if (str[i] == ' ') {
+      i++;
+    } else {
+      break;
+    }
+  }
+
+  for (;i<=len;++i) {
     if (str[i] == '.') {
       spec->major = semver_private_strntol(str + o, i - o);
       i++;
