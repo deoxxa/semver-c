@@ -3,10 +3,12 @@
 #include <stdlib.h>
 
 #include "../include/semver.h"
+#include "../include/semver-private.h"
 
 void component_init(component_t* component) {
   component->next = NULL;
   component->numeric = 1;
+  component->dataLen = 0;
   component->dataRaw = NULL;
   component->dataInt = 0;
 }
@@ -19,16 +21,18 @@ void component_dump(component_t* component) {
   if (component->numeric == 1) {
     printf("Number: %d\n", component->dataInt);
   } else {
-    printf("Text: %s\n", component->dataRaw);
+    printf("Text: ");
+    semver_private_print(component->dataRaw, component->dataLen);
+    printf("\n");
   }
 
   component_dump(component->next);
 }
 
-component_t* component_read(char* str, int len) {
+component_t* component_read(const char* str, size_t len) {
   component_t *head = NULL, *tail = NULL;
 
-  int offset = 0, i = 0, l = 0;
+  size_t offset = 0, i = 0, l = 0;
   while (offset < len) {
     if (head == NULL) {
       head = malloc(sizeof(component_t));
@@ -46,8 +50,8 @@ component_t* component_read(char* str, int len) {
       }
     }
 
-    tail->dataRaw = malloc(i - offset);
-    strncpy(tail->dataRaw, str + offset, i - offset);
+    tail->dataLen = i - offset;
+    tail->dataRaw = str + offset;
 
     if (str[i] == '.') {
       i++;
@@ -55,7 +59,7 @@ component_t* component_read(char* str, int len) {
 
     offset = i;
 
-    l = strlen(tail->dataRaw);
+    l = tail->dataLen;
     for (i=0;i<l;i++) {
       if (tail->dataRaw[i] < '0' || tail->dataRaw[i] > '9') {
         tail->numeric = 0;
@@ -63,7 +67,7 @@ component_t* component_read(char* str, int len) {
       }
     }
     if (tail->numeric) {
-      tail->dataInt = strtol(tail->dataRaw, NULL, 10);
+      tail->dataInt = semver_private_strntol(tail->dataRaw, tail->dataLen);
     }
   }
 
@@ -87,7 +91,7 @@ int component_compare(component_t* a, component_t* b) {
     }
   }
 
-  int s = strcmp(a->dataRaw, b->dataRaw);
+  int s = memcmp(a->dataRaw, b->dataRaw, a->dataLen > b->dataLen ? a->dataLen : b->dataLen);
 
   if (s != 0) {
     return s;

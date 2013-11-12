@@ -3,14 +3,17 @@
 #include <stdlib.h>
 
 #include "../include/semver.h"
+#include "../include/semver-private.h"
 
 void spec_init(spec_t* spec) {
   spec->major = 0;
   spec->minor = 0;
   spec->patch = 0;
+  spec->releaseLen = 0;
   spec->releaseRaw = NULL;
-  spec->buildRaw = NULL;
   spec->release = NULL;
+  spec->buildLen = 0;
+  spec->buildRaw = NULL;
   spec->build = NULL;
 }
 
@@ -19,10 +22,14 @@ void spec_dump(spec_t* spec) {
   printf("Minor:   %d\n", spec->minor);
   printf("Patch:   %d\n", spec->patch);
 
-  printf("Release: (%ld) %s\n", spec->releaseRaw ? strlen(spec->releaseRaw) : 0, spec->releaseRaw);
+  printf("Release: (%ld) ", spec->releaseLen);
+  semver_private_print(spec->releaseRaw, spec->releaseLen);
+  printf("\n");
   component_dump(spec->release);
 
-  printf("Build:   (%ld) %s\n", spec->buildRaw   ? strlen(spec->buildRaw)   : 0, spec->buildRaw);
+  printf("Build:   (%ld) ", spec->buildLen);
+  semver_private_print(spec->buildRaw, spec->buildLen);
+  printf("\n");
   component_dump(spec->build);
 }
 
@@ -40,12 +47,12 @@ void spec_print(spec_t* spec) {
   printf("\n");
 }
 
-int spec_read(spec_t* spec, char* str, int len) {
-  int i = 0, o = 0, l = 0;
+int spec_read(spec_t* spec, const char* str, size_t len) {
+  int i = 0, o = 0;
 
   for (;i<=len;++i) {
     if (str[i] == '.') {
-      spec->major = strtol(str + o, NULL, 10);
+      spec->major = semver_private_strntol(str + o, i - o);
       i++;
       o = i;
       break;
@@ -62,7 +69,7 @@ int spec_read(spec_t* spec, char* str, int len) {
 
   for (;i<=len;++i) {
     if (str[i] == '.') {
-      spec->minor = strtol(str + o, NULL, 10);
+      spec->minor = semver_private_strntol(str + o, i - o);
       i++;
       o = i;
       break;
@@ -79,7 +86,7 @@ int spec_read(spec_t* spec, char* str, int len) {
 
   for (;i<=len;++i) {
     if (str[i] == '-' || str[i] == '+' || i == len) {
-      spec->patch = strtol(str + o, NULL, 10);
+      spec->patch = semver_private_strntol(str + o, i - o);
       o = i;
       break;
     }
@@ -96,11 +103,10 @@ int spec_read(spec_t* spec, char* str, int len) {
   if (str[o] == '-') {
     for (;i<=len;++i) {
       if (str[i] == '+' || i == len) {
-        l = i - o;
-        spec->releaseRaw = malloc(l);
-        strncpy(spec->releaseRaw, str + o + 1, l - 1);
+        spec->releaseLen = i - o - 1;
+        spec->releaseRaw = str + o + 1;
         o = i;
-        spec->release = component_read(spec->releaseRaw, strlen(spec->releaseRaw));
+        spec->release = component_read(spec->releaseRaw, spec->releaseLen);
         break;
       }
 
@@ -111,11 +117,10 @@ int spec_read(spec_t* spec, char* str, int len) {
   }
 
   if (str[o] == '+') {
-    l = len - o;
-    spec->buildRaw = malloc(l);
-    strncpy(spec->buildRaw, &(str[o]) + 1, l - 1);
+    spec->buildLen = len - o - 1;
+    spec->buildRaw = str + o + 1;
     o = len;
-    spec->build = component_read(spec->buildRaw, strlen(spec->buildRaw));
+    spec->build = component_read(spec->buildRaw, spec->buildLen);
   }
 
   return 0;

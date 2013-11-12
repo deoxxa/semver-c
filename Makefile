@@ -19,11 +19,11 @@ obj/semver-dump.o: src/semver-dump.c
 obj/semver-sort.o: src/semver-sort.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-sort.c -o obj/semver-sort.o
 
-semver-dump: obj/semver-dump.o obj/spec.o obj/component.o
-	$(CC) $(CFLAGS) -o semver-dump obj/semver-dump.o obj/spec.o obj/component.o
+semver-dump: obj/semver-dump.o obj/private.o obj/spec.o obj/component.o
+	$(CC) $(CFLAGS) -o semver-dump obj/semver-dump.o obj/private.o obj/spec.o obj/component.o
 
-semver-sort: obj/semver-sort.o obj/spec.o obj/component.o
-	$(CC) $(CFLAGS) -o semver-sort obj/semver-sort.o obj/spec.o obj/component.o
+semver-sort: obj/semver-sort.o obj/private.o obj/spec.o obj/component.o
+	$(CC) $(CFLAGS) -o semver-sort obj/semver-sort.o obj/private.o obj/spec.o obj/component.o
 
 clean:
 	rm -rf semver-dump semver-sort obj
