@@ -6,50 +6,42 @@ Semantic versioning is back! In C form!
 Overview
 --------
 
-What do you do when you want [semver](https://github.com/isaacs/node-semver)
-but you don't have node installed? Write it in C, of course! HA HA.
+What do you do when you want [semver](https://github.com/isaacs/node-semver) but
+you don't have node installed? Write it in C, of course! HA HA.
 
-semver-dump
------------
+There's a library buried underneath the command-line program and it should be
+easy enough to integrate into another application. I haven't really tested this
+theory though so you're sort of on your own there.
 
-Prints out information about a semver spec. Returns 0 on success.
-
-```
-➜  semver-c git:(master) ✗ ./semver-dump 1.2.3-asdfqwer.iii.www.zzz+aaa.www.123.v
-Major:   1
-Minor:   2
-Patch:   3
-Release: (20) asdfqwer.iii.www.zzz
-Text: asdfqwer
-Text: iii
-Text: www
-Text: zzz
-Build:   (13) aaa.www.123.v
-Text: aaa
-Text: www
-Number: 123
-Text: v
-```
-
-semver-sort
------------
-
-Sorts a list of semver specs provided as arguments.
+Program
+-------
 
 ```
-➜  semver-c git:(master) ✗ ./semver-sort 1.2.3+b 1.2.3+a 1.2.4 1.2.3 1.2.3-a 1.2.3-b 1.2.3+x 1.2.4-x 1.2.4-y 1.2.4+6 1.2.4+07 1.2.4+8
-1.2.3-a
-1.2.3-b
-1.2.3
-1.2.3+a
-1.2.3+b
-1.2.3+x
-1.2.4-x
-1.2.4-y
-1.2.4
-1.2.4+6
-1.2.4+07
-1.2.4+8
+semver-c 0.0.0
+
+A C implementation of the http://semver.org/ specification
+Copyright Conrad Pankoff <deoxxa@fknsrs.biz>
+
+This is a very rough clone of node-semver - please see
+https://github.com/isaacs/node-semver for what that is.
+
+Usage: semver-c [options] <version> [<version> [...]]
+Prints valid versions sorted by SemVer precedence
+
+Options:
+-r <range>
+  Print versions that match the specified range.
+
+-R
+  Print versions in reverse order.
+
+Program exits successfully if any valid version satisfies all
+supplied ranges, and prints all satisfying versions.
+
+If no satisfying versions are found, then exits failure.
+
+Versions are printed in order, so supplying multiple versions
+to the utility will just sort them.
 ```
 
 License
