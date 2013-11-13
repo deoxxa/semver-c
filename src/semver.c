@@ -26,6 +26,9 @@ void help() {
   printf("Prints valid versions sorted by SemVer precedence\n");
   printf("\n");
   printf("Options:\n");
+  printf("-v\n");
+  printf("\tPrints out the version number.\n");
+  printf("\n");
   printf("-h\n");
   printf("\tThis is the help. You're looking at it.\n");
   printf("\n");
@@ -57,8 +60,12 @@ int main(int argc, char** argv) {
   range_t* range = NULL;
 
   int c;
-  while ((c = getopt(argc, argv, "hr:R")) != -1) {
+  while ((c = getopt(argc, argv, "vhr:R")) != -1) {
     switch (c) {
+      case 'v': {
+        printf(SEMVER_VERSION "\n");
+        return 0;
+      }
       case 'h': {
         help();
         return 0;
