@@ -17,7 +17,6 @@ Program
 -------
 
 ```
-➜  semver-c git:(master) semver-c -h
 semver-c 0.0.0
 
 A C implementation of the http://semver.org/ specification
@@ -30,6 +29,9 @@ Usage: semver-c [options] <version> [<version> [...]]
 Prints valid versions sorted by SemVer precedence
 
 Options:
+-v
+  Prints out the version number.
+
 -h
   This is the help. You're looking at it.
 
