@@ -17,6 +17,7 @@ Program
 -------
 
 ```
+➜  semver-c git:(master) semver-c -h
 semver-c 0.0.0
 
 A C implementation of the http://semver.org/ specification
