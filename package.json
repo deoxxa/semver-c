@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "description": "Semantic versioning is back! In C form!",
   "bin": {
-    "semver-c": "./bin/semver",
-    "semver-dump": "./bin/semver-dump",
-    "semver-range": "./bin/semver-range",
-    "semver-sort": "./bin/semver-sort"
+    "semver-c": "./bin/semver"
   },
   "scripts": {
     "install": "make"
