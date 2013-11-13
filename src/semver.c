@@ -48,18 +48,19 @@ void help() {
 }
 
 int main(int argc, char** argv) {
-  if (argc == 1) {
-    help();
-    return 0;
-  }
-
   int spec_count = 0;
   spec_t spec[MAX_SPECS];
 
   char reverse = 0;
   range_t* range = NULL;
 
-  int c;
+  int c, i;
+
+  if (argc == 1) {
+    help();
+    return 0;
+  }
+
   while ((c = getopt(argc, argv, "vhr:R")) != -1) {
     switch (c) {
       case 'v': {
@@ -81,7 +82,6 @@ int main(int argc, char** argv) {
     }
   }
 
-  int i;
   for (i=optind;i<argc;++i) {
     spec_init(&spec[spec_count]);
 

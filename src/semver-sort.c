@@ -7,6 +7,7 @@ int main(int argc, char** argv) {
   spec_t verify;
   spec_t* specs = NULL;
   int i, j = 0, count = 0;
+  char reverse = 0;
 
   for (i=0;i<argc;++i) {
     spec_init(&verify);
@@ -24,7 +25,6 @@ int main(int argc, char** argv) {
     }
   }
 
-  char reverse = 0;
   for (i=0;i<argc;++i) {
     if (strncmp("-r", argv[i], strlen(argv[i])) == 0) {
       reverse = 1;

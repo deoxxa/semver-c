@@ -42,6 +42,17 @@ range_t* range_read(const char* str, size_t len) {
 
   int tidle, caret, star_ok;
 
+  /**
+   * 1: major
+   * 2: minor
+   * 3: patch
+   */
+  char         have[3] = {0, 0, 0};
+  unsigned int bits[3] = {0, 0, 0};
+  char         star[3] = {0, 0, 0};
+
+  int i, j = 0;
+
   while (offset < len) {
     tidle = 0;
     caret = 0;
@@ -50,7 +61,7 @@ range_t* range_read(const char* str, size_t len) {
     current = malloc(sizeof(range_t));
     range_init(current);
 
-    // skip whitespace
+    /* skip whitespace */
     if (str[offset] == ' ') {
       while (str[offset] == ' ') {
         offset++;
@@ -135,23 +146,13 @@ range_t* range_read(const char* str, size_t len) {
       spec_init(current->upper);
     }
 
-    // skip whitespace
+    /* skip whitespace */
     if (str[offset] == ' ') {
       while (str[offset] == ' ') {
         offset++;
       }
     }
 
-    //
-    // 1: major
-    // 2: minor
-    // 3: patch
-    //
-    char         have[3] = {0, 0, 0};
-    unsigned int bits[3] = {0, 0, 0};
-    char         star[3] = {0, 0, 0};
-
-    int i, j = 0;
     for (i=offset;i<=len;++i) {
       if (str[i] == '.' || str[i] == ' ' || i == len) {
         have[j] = 1;
@@ -169,14 +170,14 @@ range_t* range_read(const char* str, size_t len) {
 
         j++;
 
-        // skip "." if that's why we're here
+        /* skip "." if that's why we're here */
         if (i < len && str[i] == '.') {
           i++;
         }
 
         offset = i;
 
-        // we're done
+        /* we're done */
         if (j == 3) {
           break;
           continue;

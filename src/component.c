@@ -93,6 +93,8 @@ component_t* component_read(const char* str, size_t len) {
 }
 
 int component_compare(const component_t* a, const component_t* b) {
+  int s;
+
   if (a == NULL && b != NULL) {
     return 1;
   } else if (a != NULL && b == NULL) {
@@ -109,7 +111,7 @@ int component_compare(const component_t* a, const component_t* b) {
     }
   }
 
-  int s = memcmp(a->dataRaw, b->dataRaw, a->dataLen > b->dataLen ? a->dataLen : b->dataLen);
+  s = memcmp(a->dataRaw, b->dataRaw, a->dataLen > b->dataLen ? a->dataLen : b->dataLen);
 
   if (s != 0) {
     return s;

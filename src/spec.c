@@ -169,7 +169,7 @@ int spec_compare(const spec_t* a, const spec_t* b) {
     return a->patch > b->patch ? 1 : -1;
   }
 
-  // no release > new release > old release
+  /* no release > new release > old release */
   if (a->release == NULL && b->release != NULL) {
     return 1;
   }
@@ -186,7 +186,7 @@ int spec_compare(const spec_t* a, const spec_t* b) {
     }
   }
 
-  // new build > old build > no build
+  /* new build > old build > no build */
   if (a->build != NULL && b->build == NULL) {
     return 1;
   }

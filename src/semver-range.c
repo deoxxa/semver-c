@@ -6,6 +6,7 @@
 int main(int argc, char** argv) {
   range_t* range = NULL;
   spec_t* spec = NULL;
+  int i;
 
   if (argc < 2) {
     return -1;
@@ -16,7 +17,6 @@ int main(int argc, char** argv) {
     return -1;
   }
 
-  int i;
   for (i=2;i<argc;++i) {
     spec = malloc(sizeof(spec_t));
     spec_init(spec);
