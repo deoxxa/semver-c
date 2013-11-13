@@ -7,6 +7,9 @@
     "semver-range": "./bin/semver-range",
     "semver-sort": "./bin/semver-sort"
   },
+  "scripts": {
+    "install": "make"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/deoxxa/semver-c.git"
