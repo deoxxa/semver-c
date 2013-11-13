@@ -1,6 +1,6 @@
 CFLAGS += -Wall -Werror -pedantic
 
-all: prepare bin/semver-dump bin/semver-sort bin/semver-range
+all: prepare bin/semver bin/semver-dump bin/semver-sort bin/semver-range
 
 prepare:
 	[ -d obj ] || mkdir obj
@@ -18,6 +18,9 @@ obj/spec.o: src/spec.c
 obj/range.o: src/range.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/range.c -o obj/range.o
 
+obj/semver.o: src/semver.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver.c -o obj/semver.o
+
 obj/semver-dump.o: src/semver-dump.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-dump.c -o obj/semver-dump.o
 
@@ -26,6 +29,9 @@ obj/semver-sort.o: src/semver-sort.c
 
 obj/semver-range.o: src/semver-range.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/semver-range.c -o obj/semver-range.o
+
+bin/semver: obj/semver.o obj/private.o obj/spec.o obj/component.o obj/range.o
+	$(CC) $(CFLAGS) -o bin/semver obj/semver.o obj/private.o obj/spec.o obj/component.o obj/range.o
 
 bin/semver-dump: obj/semver-dump.o obj/private.o obj/spec.o obj/component.o
 	$(CC) $(CFLAGS) -o bin/semver-dump obj/semver-dump.o obj/private.o obj/spec.o obj/component.o
