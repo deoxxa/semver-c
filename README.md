@@ -62,5 +62,4 @@ Contact
 
 * GitHub ([deoxxa](http://github.com/deoxxa))
 * Twitter ([@deoxxa](http://twitter.com/deoxxa))
-* ADN ([@deoxxa](https://alpha.app.net/deoxxa))
 * Email ([deoxxa@fknsrs.biz](mailto:deoxxa@fknsrs.biz))
