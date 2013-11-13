@@ -247,3 +247,29 @@ range_t* range_read(const char* str, size_t len) {
 
   return root;
 }
+
+int range_compare(range_t* range, spec_t* spec) {
+  range_t* current = range;
+
+  do {
+    if (range_compare_one(current, spec) != 0) {
+      return 0;
+    }
+
+    current = current->next;
+  } while (current != NULL);
+
+  return 1;
+}
+
+int range_compare_one(range_t* range, spec_t* spec) {
+  if (range->hasLower && spec_compare(spec, range->lower) < 1 - range->includesLower) {
+    return -1;
+  }
+
+  if (range->hasUpper && spec_compare(spec, range->upper) >= range->includesUpper) {
+    return 1;
+  }
+
+  return 0;
+}

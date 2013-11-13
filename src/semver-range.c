@@ -22,11 +22,7 @@ int main(int argc, char** argv) {
     spec_init(spec);
     spec_read(spec, argv[i], strlen(argv[i]));
 
-    if (range->hasLower && spec_compare(spec, range->lower) < 1 - range->includesLower) {
-      continue;
-    }
-
-    if (range->hasUpper && spec_compare(spec, range->upper) >= range->includesUpper) {
+    if (!range_compare(range, spec)) {
       continue;
     }
 

@@ -52,5 +52,7 @@ typedef struct range_s {
 void     range_init(range_t* range);
 void     range_dump(range_t* range);
 range_t* range_read(const char* str, size_t len);
+int      range_compare(range_t* range, spec_t* spec);
+int      range_compare_one(range_t* range, spec_t* spec);
 
 #endif
