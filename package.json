@@ -15,7 +15,10 @@
   "keywords": [
     "semver",
     "c",
-    "native"
+    "native",
+    "program",
+    "application",
+    "utility"
   ],
   "author": "Conrad Pankoff <deoxxa@fknsrs.biz> (http://www.fknsrs.biz/)",
   "license": "BSD",
