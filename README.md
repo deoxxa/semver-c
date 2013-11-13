@@ -30,6 +30,9 @@ Usage: semver-c [options] <version> [<version> [...]]
 Prints valid versions sorted by SemVer precedence
 
 Options:
+-h
+  This is the help. You're looking at it.
+
 -r <range>
   Print versions that match the specified range.
 
