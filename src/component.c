@@ -43,7 +43,7 @@ void component_print(component_t* component) {
   if (component->next) {
     printf(".");
 
-    component_dump(component->next);
+    component_print(component->next);
   }
 }
 
