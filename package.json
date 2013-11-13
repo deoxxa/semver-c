@@ -1,6 +1,6 @@
 {
   "name": "semver-c",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Semantic versioning is back! In C form!",
   "bin": {
     "semver-c": "./bin/semver"
