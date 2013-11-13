@@ -19,6 +19,9 @@ void help() {
   printf("A C implementation of the http://semver.org/ specification\n");
   printf("Copyright Conrad Pankoff <deoxxa@fknsrs.biz>\n");
   printf("\n");
+  printf("This is a very rough clone of node-semver - please see\n");
+  printf("https://github.com/isaacs/node-semver for what that is.\n");
+  printf("\n");
   printf("Usage: semver-c [options] <version> [<version> [...]]\n");
   printf("Prints valid versions sorted by SemVer precedence\n");
   printf("\n");
