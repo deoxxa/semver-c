@@ -47,6 +47,10 @@ int main(int argc, char** argv) {
     spec_count++;
   }
 
+  if (spec_count == 0) {
+    return 1;
+  }
+
   if (reverse) {
     qsort(&spec, spec_count, sizeof(spec_t), &spec_compare_qsort_d);
   } else {
