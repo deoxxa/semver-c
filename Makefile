@@ -44,3 +44,6 @@ bin/semver-range: obj/semver-range.o obj/private.o obj/spec.o obj/component.o ob
 
 clean:
 	rm -rf bin obj
+
+test: .
+	cd test && sh comparison.sh | grep 'not ok'
