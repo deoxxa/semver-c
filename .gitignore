@@ -1,4 +1,5 @@
 obj
+bin
 semver-dump
 semver-sort
 semver-range
