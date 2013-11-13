@@ -17,7 +17,7 @@ void spec_init(spec_t* spec) {
   spec->build = NULL;
 }
 
-void spec_dump(spec_t* spec) {
+void spec_dump(const spec_t* spec) {
   printf("Major:   %d\n", spec->major);
   printf("Minor:   %d\n", spec->minor);
   printf("Patch:   %d\n", spec->patch);
@@ -33,7 +33,7 @@ void spec_dump(spec_t* spec) {
   component_dump(spec->build);
 }
 
-void spec_print(spec_t* spec) {
+void spec_print(const spec_t* spec) {
   printf("%d.%d.%d", spec->major, spec->minor, spec->patch);
 
   if (spec->releaseRaw) {

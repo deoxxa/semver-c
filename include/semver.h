@@ -12,11 +12,11 @@ typedef struct component_s {
 } component_t;
 
 void component_init(component_t* component);
-void component_dump(component_t* component);
-void component_print(component_t* component);
+void component_dump(const component_t* component);
+void component_print(const component_t* component);
 component_t* component_read(const char* str, size_t len);
 
-int component_compare(component_t* a, component_t* b);
+int component_compare(const component_t* a, const component_t* b);
 
 typedef struct spec_s {
   int major;
@@ -31,9 +31,9 @@ typedef struct spec_s {
 } spec_t;
 
 void spec_init (spec_t* spec);
-void spec_dump (spec_t* spec);
+void spec_dump (const spec_t* spec);
 int  spec_read (spec_t* spec, const char* str, size_t len);
-void spec_print(spec_t* spec);
+void spec_print(const spec_t* spec);
 
 int spec_compare        (const spec_t* a, const spec_t* b);
 int spec_compare_qsort_a(const void*   a, const void*     b);
@@ -50,9 +50,9 @@ typedef struct range_s {
 } range_t;
 
 void     range_init(range_t* range);
-void     range_dump(range_t* range);
+void     range_dump(const range_t* range);
 range_t* range_read(const char* str, size_t len);
-int      range_compare(range_t* range, spec_t* spec);
-int      range_compare_one(range_t* range, spec_t* spec);
+int      range_compare(const range_t* range, const spec_t* spec);
+int      range_compare_one(const range_t* range, const spec_t* spec);
 
 #endif

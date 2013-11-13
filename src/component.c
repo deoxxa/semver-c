@@ -13,7 +13,7 @@ void component_init(component_t* component) {
   component->dataInt = 0;
 }
 
-void component_dump(component_t* component) {
+void component_dump(const component_t* component) {
   if (component == NULL) {
     return;
   }
@@ -29,7 +29,7 @@ void component_dump(component_t* component) {
   component_dump(component->next);
 }
 
-void component_print(component_t* component) {
+void component_print(const component_t* component) {
   if (component == NULL) {
     return;
   }
@@ -92,7 +92,7 @@ component_t* component_read(const char* str, size_t len) {
   return head;
 }
 
-int component_compare(component_t* a, component_t* b) {
+int component_compare(const component_t* a, const component_t* b) {
   if (a == NULL && b != NULL) {
     return 1;
   } else if (a != NULL && b == NULL) {

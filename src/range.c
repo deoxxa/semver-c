@@ -14,7 +14,7 @@ void range_init(range_t* range) {
   range->upper = NULL;
 }
 
-void range_dump(range_t* range) {
+void range_dump(const range_t* range) {
   printf("Has lower: %s\n", range->hasLower ? "yes" : "no");
   printf("Includes lower: %s\n", range->includesLower ? "yes" : "no");
   if (range->hasLower && range->lower != NULL) {
@@ -248,8 +248,8 @@ range_t* range_read(const char* str, size_t len) {
   return root;
 }
 
-int range_compare(range_t* range, spec_t* spec) {
-  range_t* current = range;
+int range_compare(const range_t* range, const spec_t* spec) {
+  const range_t* current = range;
 
   do {
     if (range_compare_one(current, spec) != 0) {
@@ -262,7 +262,7 @@ int range_compare(range_t* range, spec_t* spec) {
   return 1;
 }
 
-int range_compare_one(range_t* range, spec_t* spec) {
+int range_compare_one(const range_t* range, const spec_t* spec) {
   if (range->hasLower && spec_compare(spec, range->lower) < 1 - range->includesLower) {
     return -1;
   }
