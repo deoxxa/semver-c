@@ -3,8 +3,8 @@ CFLAGS += -Wall -Werror -pedantic
 all: prepare bin/semver-dump bin/semver-sort bin/semver-range
 
 prepare:
-	mkdir obj
-	mkdir bin
+	[ -d obj ] || mkdir obj
+	[ -d bin ] || mkdir bin
 
 obj/private.o: src/private.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c src/private.c -o obj/private.o
