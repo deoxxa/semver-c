@@ -5,13 +5,45 @@
 
 #include "../include/semver.h"
 
+#define SEMVER_VERSION "0.0.0"
+
 /**
  * this is the maximum number of semver specifications the program will accept
  * as arguments
  */
 #define MAX_SPECS 1000
 
+void help() {
+  printf("semver-c " SEMVER_VERSION "\n");
+  printf("\n");
+  printf("A C implementation of the http://semver.org/ specification\n");
+  printf("Copyright Conrad Pankoff <deoxxa@fknsrs.biz>\n");
+  printf("\n");
+  printf("Usage: semver-c [options] <version> [<version> [...]]\n");
+  printf("Prints valid versions sorted by SemVer precedence\n");
+  printf("\n");
+  printf("Options:\n");
+  printf("-r <range>\n");
+  printf("\tPrint versions that match the specified range.\n");
+  printf("\n");
+  printf("-R\n");
+  printf("\tPrint versions in reverse order.\n");
+  printf("\n");
+  printf("Program exits successfully if any valid version satisfies all\n");
+  printf("supplied ranges, and prints all satisfying versions.\n");
+  printf("\n");
+  printf("If no satisfying versions are found, then exits failure.\n");
+  printf("\n");
+  printf("Versions are printed in order, so supplying multiple versions\n");
+  printf("to the utility will just sort them.\n");
+}
+
 int main(int argc, char** argv) {
+  if (argc == 1) {
+    help();
+    return 0;
+  }
+
   int spec_count = 0;
   spec_t spec[MAX_SPECS];
 
