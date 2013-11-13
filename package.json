@@ -2,6 +2,11 @@
   "name": "semver-c",
   "version": "0.0.0",
   "description": "Semantic versioning is back! In C form!",
+  "bin": {
+    "semver-dump": "./bin/semver-dump",
+    "semver-range": "./bin/semver-range",
+    "semver-sort": "./bin/semver-sort"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/deoxxa/semver-c.git"
