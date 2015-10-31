@@ -1,6 +1,6 @@
-CFLAGS += -Wall -Werror -pedantic
+CFLAGS += -Wall -Werror -pedantic -fPIC
 
-all: prepare bin/semver bin/semver-dump bin/semver-sort bin/semver-range
+all: prepare bin/semver bin/semver-dump bin/semver-sort bin/semver-range bin/libsemver.so
 
 prepare:
 	[ -d obj ] || mkdir obj
@@ -41,6 +41,9 @@ bin/semver-sort: obj/semver-sort.o obj/private.o obj/spec.o obj/component.o
 
 bin/semver-range: obj/semver-range.o obj/private.o obj/spec.o obj/component.o obj/range.o
 	$(CC) $(CFLAGS) -o bin/semver-range obj/semver-range.o obj/private.o obj/spec.o obj/component.o obj/range.o
+
+bin/libsemver.so: obj/spec.o obj/component.o obj/range.o
+	$(CC) $(CFLAGS) -shared -o bin/libsemver.so obj/spec.o obj/component.o obj/range.o
 
 clean:
 	rm -rf bin obj
